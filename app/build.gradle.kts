@@ -27,6 +27,7 @@ android {
 }
 
 dependencies {
-    implementation(com.lomovskiy.lib.location.buildsrc.Config.Deps.kotlinStd)
-    implementation(com.lomovskiy.lib.location.buildsrc.Config.Deps.ui)
+    implementation(Config.Deps.kotlinStd)
+    implementation(Config.Deps.ui)
+    implementation(project(Config.Modules.lib))
 }

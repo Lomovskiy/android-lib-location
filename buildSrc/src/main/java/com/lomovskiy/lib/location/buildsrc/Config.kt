@@ -30,7 +30,7 @@ object Config {
         const val androidGradlePlugin = "4.2.0"
         const val buildTools = "30.0.3"
 
-        const val kotlin = "1.4.30"
+        const val kotlin = "1.5.0"
 
         const val ui = "1.0.6"
 

@@ -30,7 +30,10 @@ android {
 
 dependencies {
 
-    implementation(com.lomovskiy.lib.location.buildsrc.Config.Deps.kotlinStd)
+    implementation(Config.Deps.kotlinStd)
+//    implementation("androidx.annotation:annotation:1.2.0")
+    implementation("androidx.core:core-ktx:1.6.0-alpha03")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
 
 }
 

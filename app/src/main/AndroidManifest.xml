@@ -9,13 +9,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Camera2">
-        <activTity android:name="com.lomovskiy.lib.location.sample.MainActivity">
+        <activity android:name="com.lomovskiy.lib.location.sample.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activTity>
+        </activity>
     </application>
 
 </manifest>
