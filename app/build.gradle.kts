@@ -9,12 +9,12 @@ android {
 
     defaultConfig {
         applicationId("com.lomovskiy.lib.location.sample")
-        minSdkVersion(com.lomovskiy.lib.location.buildsrc.Config.Versions.Android.min)
-        targetSdkVersion(com.lomovskiy.lib.location.buildsrc.Config.Versions.Android.target)
-        compileSdkVersion(com.lomovskiy.lib.location.buildsrc.Config.Versions.Android.compile)
-        buildToolsVersion(com.lomovskiy.lib.location.buildsrc.Config.Versions.buildTools)
-        versionCode(com.lomovskiy.lib.location.buildsrc.Config.Versions.code)
-        versionName(com.lomovskiy.lib.location.buildsrc.Config.Versions.name)
+        minSdkVersion(Config.Versions.Android.min)
+        targetSdkVersion(Config.Versions.Android.target)
+        compileSdkVersion(Config.Versions.Android.compile)
+        buildToolsVersion(Config.Versions.buildTools)
+        versionCode(Config.Versions.code)
+        versionName(Config.Versions.name)
     }
 
     compileOptions {
@@ -28,6 +28,8 @@ android {
 
 dependencies {
     implementation(Config.Deps.kotlinStd)
+    implementation(Config.Deps.kotlinCoroutines)
+    implementation(project(":lib"))
     implementation(Config.Deps.ui)
-    implementation(project(Config.Modules.lib))
+//    implementation(project(Config.Modules.lib))
 }

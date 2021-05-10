@@ -10,12 +10,12 @@ plugins {
 android {
 
     defaultConfig {
-        minSdkVersion(com.lomovskiy.lib.location.buildsrc.Config.Versions.Android.min)
-        targetSdkVersion(com.lomovskiy.lib.location.buildsrc.Config.Versions.Android.target)
-        compileSdkVersion(com.lomovskiy.lib.location.buildsrc.Config.Versions.Android.compile)
-        buildToolsVersion(com.lomovskiy.lib.location.buildsrc.Config.Versions.buildTools)
-        versionCode(com.lomovskiy.lib.location.buildsrc.Config.Versions.code)
-        versionName(com.lomovskiy.lib.location.buildsrc.Config.Versions.name)
+        minSdkVersion(Config.Versions.Android.min)
+        targetSdkVersion(Config.Versions.Android.target)
+        compileSdkVersion(Config.Versions.Android.compile)
+        buildToolsVersion(Config.Versions.buildTools)
+        versionCode(Config.Versions.code)
+        versionName(Config.Versions.name)
     }
 
     compileOptions {
@@ -31,9 +31,8 @@ android {
 dependencies {
 
     implementation(Config.Deps.kotlinStd)
-//    implementation("androidx.annotation:annotation:1.2.0")
-    implementation("androidx.core:core-ktx:1.6.0-alpha03")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.3")
+    implementation(Config.Deps.kotlinCoroutines)
+    implementation(Config.Deps.androidXCore)
 
 }
 
@@ -51,9 +50,9 @@ afterEvaluate {
         publications {
             create<MavenPublication>("release") {
                 from(components["release"])
-                groupId = com.lomovskiy.lib.location.buildsrc.Config.Publish.groupId
-                artifactId = com.lomovskiy.lib.location.buildsrc.Config.Publish.artifactId
-                version = com.lomovskiy.lib.location.buildsrc.Config.Versions.name
+                groupId = Config.Publish.groupId
+                artifactId = Config.Publish.artifactId
+                version = Config.Versions.name
             }
         }
     }

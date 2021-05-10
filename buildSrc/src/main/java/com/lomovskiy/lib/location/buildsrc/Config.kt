@@ -10,7 +10,7 @@ object Config {
     object GradlePlugins {
 
         const val android = "com.android.tools.build:gradle:${Versions.androidGradlePlugin}"
-        const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+        const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinStd}"
 
     }
 
@@ -30,23 +30,19 @@ object Config {
         const val androidGradlePlugin = "4.2.0"
         const val buildTools = "30.0.3"
 
-        const val kotlin = "1.5.0"
-
-        const val ui = "1.0.6"
-
-    }
-
-    object Modules {
-
-        const val app = ":app"
-        const val lib = ":lib"
+        const val kotlinStd = "1.5.0"
+        const val kotlinCoroutines = "1.5.0-RC"
+        const val ui = "1.0.12"
+        const val androidXCore = "1.6.0-alpha03"
 
     }
 
     object Deps {
 
-        const val kotlinStd = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+        const val kotlinStd = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlinStd}"
+        const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
         const val ui = "com.github.lomovskiy:android-lib-ui:${Versions.ui}"
+        const val androidXCore = "androidx.core:core-ktx:${Versions.androidXCore}"
 
     }
 

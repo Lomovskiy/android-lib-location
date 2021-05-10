@@ -7,16 +7,21 @@ import android.location.Criteria
 import android.location.Location
 import android.location.LocationManager
 import android.os.Process
+import androidx.annotation.RequiresPermission
 import androidx.core.location.LocationManagerCompat
 import androidx.core.os.CancellationSignal
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import java.util.concurrent.Executor
+import java.util.concurrent.Executors
 import kotlin.coroutines.resume
-import kotlin.jvm.Throws
 
 class AndroidLocationSource(
     private val context: Context,
-    private val executor: Executor
+    private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
+    private val executor: Executor = Executors.newSingleThreadExecutor()
 ) : LocationSource {
 
     private val criteria: Criteria = Criteria().apply {
@@ -25,23 +30,24 @@ class AndroidLocationSource(
 
     private val locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
+    @RequiresPermission(anyOf = [
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    ])
+    @Throws(SecurityException::class)
     override suspend fun getLastKnownLocation(): Location? {
-        if (context.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
-            val gpsLocation: Location? = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-            if (gpsLocation != null) {
-                return gpsLocation
+        return withContext(dispatcher) {
+            if (context.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
+                return@withContext locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             }
-        }
-        if (context.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
-            val networkLocation: Location? = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            if (networkLocation != null) {
-                return networkLocation
+            if (context.checkPermission(Manifest.permission.ACCESS_COARSE_LOCATION, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED) {
+                return@withContext locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
             }
+            throw SecurityException()
         }
-        return locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER)
     }
 
-    @Throws(SecurityException::class)
+    @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
     override suspend fun getCurrentLocation(): Location? {
         return suspendCancellableCoroutine { cont ->
             val cancellationSignal = CancellationSignal()
@@ -56,10 +62,6 @@ class AndroidLocationSource(
                 cancellationSignal.cancel()
             }
         }
-    }
-
-    override fun getBestProvider(): String? {
-        return locationManager.getBestProvider(criteria, false)
     }
 
     private fun getBestLocationProvider(): String {

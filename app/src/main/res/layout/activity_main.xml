@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_last_known_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="get last known location"
+        />
+
+    <Button
+        android:id="@+id/button_current_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="get current location"
         />
 
 </LinearLayout>
