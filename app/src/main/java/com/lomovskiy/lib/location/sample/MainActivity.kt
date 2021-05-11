@@ -8,6 +8,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.lomovskiy.lib.location.AndroidLocationSource
+import com.lomovskiy.lib.location.GoogleLocationSource
 import com.lomovskiy.lib.location.LocationSource
 import com.lomovskiy.lib.ui.showToast
 import kotlinx.coroutines.MainScope
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        locationSource = AndroidLocationSource(this)
+        locationSource = GoogleLocationSource(this)
 
         buttonLastKnownLocation = findViewById(R.id.button_last_known_location)
         buttonCurrentLocation = findViewById(R.id.button_current_location)

@@ -33,6 +33,7 @@ dependencies {
     implementation(Config.Deps.kotlinStd)
     implementation(Config.Deps.kotlinCoroutines)
     implementation(Config.Deps.androidXCore)
+    implementation(Config.Deps.googlePlayServicesLocation)
 
 }
 

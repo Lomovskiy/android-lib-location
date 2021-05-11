@@ -34,6 +34,7 @@ object Config {
         const val kotlinCoroutines = "1.5.0-RC"
         const val ui = "1.0.12"
         const val androidXCore = "1.6.0-alpha03"
+        const val googlePlayServicesLocation = "18.0.0"
 
     }
 
@@ -43,6 +44,7 @@ object Config {
         const val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.kotlinCoroutines}"
         const val ui = "com.github.lomovskiy:android-lib-ui:${Versions.ui}"
         const val androidXCore = "androidx.core:core-ktx:${Versions.androidXCore}"
+        const val googlePlayServicesLocation = "com.google.android.gms:play-services-location:${Versions.googlePlayServicesLocation}"
 
     }
 
