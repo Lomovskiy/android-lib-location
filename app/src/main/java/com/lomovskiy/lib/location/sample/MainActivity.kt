@@ -7,7 +7,6 @@ import android.widget.Button
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.lomovskiy.lib.location.AndroidLocationSource
 import com.lomovskiy.lib.location.GoogleLocationSource
 import com.lomovskiy.lib.location.LocationSource
 import com.lomovskiy.lib.ui.showToast

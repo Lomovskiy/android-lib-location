@@ -7,7 +7,7 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.util.concurrent.Executor
 
-suspend fun <T> Task<T>.await(executor: Executor, cancellationTokenSource: CancellationTokenSource? = null): T {
+suspend fun <T> Task<T>.await(cancellationTokenSource: CancellationTokenSource? = null): T {
     if (isComplete) {
         val e = exception
         return if (e == null) {
@@ -23,7 +23,7 @@ suspend fun <T> Task<T>.await(executor: Executor, cancellationTokenSource: Cance
     }
 
     return suspendCancellableCoroutine { cont ->
-        addOnCompleteListener(executor) {
+        addOnCompleteListener {
             val e = exception
             if (e == null) {
                 @Suppress("UNCHECKED_CAST")

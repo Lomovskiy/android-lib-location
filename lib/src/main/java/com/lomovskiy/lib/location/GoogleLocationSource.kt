@@ -11,19 +11,18 @@ import com.google.android.gms.tasks.CancellationTokenSource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 
 class GoogleLocationSource(
-    private val context: Context,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
-    private val executor: Executor = Executors.newSingleThreadExecutor()
-) : LocationSource {
+    context: Context,
+    dispatcher: CoroutineDispatcher
+) : AbsLocationSource(context, dispatcher) {
 
     private val locationClient = LocationServices.getFusedLocationProviderClient(context)
-    private val settingsClient = LocationServices.getSettingsClient(context)
 
     @RequiresPermission(anyOf = [
         Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -31,7 +30,12 @@ class GoogleLocationSource(
     ])
     @Throws(SecurityException::class)
     override suspend fun getLastKnownLocation(): Location? {
-        return locationClient.lastLocation.await(executor)
+        return withContext(dispatcher) {
+            if (isAccessToFineLocationGranted || isAccessToCoarseLocationGranted) {
+                return@withContext locationClient.lastLocation.await()
+            }
+            throw SecurityException()
+        }
     }
 
     @RequiresPermission(anyOf = [
@@ -39,11 +43,25 @@ class GoogleLocationSource(
         Manifest.permission.ACCESS_FINE_LOCATION
     ])
     override suspend fun getCurrentLocation(): Location? {
+        if (isAccessToFineLocationGranted) {
+            return getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY)
+        }
+        if (isAccessToCoarseLocationGranted) {
+            return getCurrentLocation(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+        }
+        throw SecurityException()
+    }
+
+    @RequiresPermission(anyOf = [
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    ])
+    private suspend fun getCurrentLocation(priority: Int): Location? {
         val cancellationTokenSource = CancellationTokenSource()
         return locationClient.getCurrentLocation(
-            LocationRequest.PRIORITY_HIGH_ACCURACY,
+            priority,
             cancellationTokenSource.token
-        ).await(executor, cancellationTokenSource)
+        ).await(cancellationTokenSource)
     }
 
 }

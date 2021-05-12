@@ -19,10 +19,10 @@ import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 
 class AndroidLocationSource(
-    private val context: Context,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.Default,
-    private val executor: Executor = Executors.newSingleThreadExecutor()
-) : LocationSource {
+    context: Context,
+    dispatcher: CoroutineDispatcher,
+    private val executor: Executor
+) : AbsLocationSource(context, dispatcher) {
 
     private val fineCriteria: Criteria = Criteria().apply {
         accuracy = Criteria.ACCURACY_FINE
@@ -31,12 +31,6 @@ class AndroidLocationSource(
     private val coarseCriteria: Criteria = Criteria().apply {
         accuracy = Criteria.ACCURACY_COARSE
     }
-
-    private val isAccessToFineLocationGranted: Boolean
-        get() = context.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED
-
-    private val isAccessToCoarseLocationGranted: Boolean
-        get() = context.checkPermission(Manifest.permission.ACCESS_FINE_LOCATION, Process.myPid(), Process.myUid()) == PackageManager.PERMISSION_GRANTED
 
     private val locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
