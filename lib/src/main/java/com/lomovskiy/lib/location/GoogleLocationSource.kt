@@ -24,10 +24,6 @@ class GoogleLocationSource(
 
     private val locationClient = LocationServices.getFusedLocationProviderClient(context)
 
-    @RequiresPermission(anyOf = [
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    ])
     @Throws(SecurityException::class)
     override suspend fun getLastKnownLocation(): Location? {
         return withContext(dispatcher) {
@@ -38,10 +34,7 @@ class GoogleLocationSource(
         }
     }
 
-    @RequiresPermission(anyOf = [
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    ])
+    @Throws(SecurityException::class)
     override suspend fun getCurrentLocation(): Location? {
         if (isAccessToFineLocationGranted) {
             return getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY)

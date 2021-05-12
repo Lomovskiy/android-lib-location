@@ -7,15 +7,12 @@ import android.location.Criteria
 import android.location.Location
 import android.location.LocationManager
 import android.os.Process
-import androidx.annotation.RequiresPermission
 import androidx.core.location.LocationManagerCompat
 import androidx.core.os.CancellationSignal
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import kotlin.coroutines.resume
 
 class AndroidLocationSource(
@@ -34,10 +31,6 @@ class AndroidLocationSource(
 
     private val locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-    @RequiresPermission(anyOf = [
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    ])
     @Throws(SecurityException::class)
     override suspend fun getLastKnownLocation(): Location? {
         return withContext(dispatcher) {
@@ -51,10 +44,6 @@ class AndroidLocationSource(
         }
     }
 
-    @RequiresPermission(anyOf = [
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.ACCESS_FINE_LOCATION
-    ])
     @Throws(SecurityException::class)
     override suspend fun getCurrentLocation(): Location? {
         return suspendCancellableCoroutine { cont ->
