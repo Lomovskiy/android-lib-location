@@ -13,7 +13,11 @@ interface LocationSource {
     @Throws(SecurityException::class)
     suspend fun getLastKnownLocation(): Location?
 
-    @RequiresPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+    @RequiresPermission(anyOf = [
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+        Manifest.permission.ACCESS_FINE_LOCATION
+    ])
+    @Throws(SecurityException::class)
     suspend fun getCurrentLocation(): Location?
 
 }
